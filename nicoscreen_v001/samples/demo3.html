@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Webページへニコニコ動画のような文字を流すことが出来るjqueryプラグイン：ニコスクリーン</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+<style type="text/css" media="all">
+@import "images/style.css";
+</style>
+
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript" src="../nicoscreen.js"></script>
+	
+</head>
+<body>
+<div id="page-container">
+<div class="padding" style="padding-left:30px;padding-top:10px">
+<h2>好きなタイミングで文字を流すサンプル</h2>
+
+<div style="">
+
+<input id="text_comment" type="text" style="width:200px" /><input type="button" onclick="addComment()" value="コメント" />
+
+</div>
+
+<br />
+<div id="nicoscreen" style="width:560px;height:349px" >
+
+<iframe width="560" height="349" src="http://www.youtube.com/embed/5C3RURPgLfs?rel=0&autoplay=1&wmode=transparent" frameborder="0" allowfullscreen></iframe>
+
+</div>
+
+<br />
+<br />
+<br />
+
+<script type="text/javascript">
+	
+	var obj = {
+		
+		"base":{
+			color:"white",
+			speed:"normal",
+			interval:"normal",
+			font_size:"30px",
+			loop:true
+			
+		},
+		
+		"comments":[
+			
+			
+			
+		]
+		
+		
+	};
+
+	nicoscreen.set(obj);
+	nicoscreen.start();
+	
+	function addComment(){
+		
+		var str = $("#text_comment").val();
+		nicoscreen.add(str);
+		
+		$("#text_comment").val("");
+		
+	}
+
+</script>
+
+
+<div>
+ソースコード
+</div>
+<textarea style="width:600px;height:400px" wrap="off">
+
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript" src="../nicoscreen.js"></script>
+
+<!--　コメント用テキストボックス -->
+<input id="text_comment" type="text" style="width:200px" /><input type="button" onclick="addComment()" value="コメント" />
+
+<div id="nicoscreen" style="width:560px;height:349px" >
+
+<iframe width="560" height="349" src="http://www.youtube.com/embed/5C3RURPgLfs?rel=0&autoplay=1&wmode=transparent" frameborder="0" allowfullscreen></iframe>
+
+</div>
+<script type="text/javascript">
+	
+	var obj = {
+		
+		"base":{
+			color:"white",
+			speed:"normal",
+			interval:"normal",
+			font_size:"30px",
+			loop:true
+			
+		},
+		
+		"comments":[
+			
+			
+			
+			
+		]
+		
+		
+	};
+
+	nicoscreen.set(obj);
+	nicoscreen.start();
+	
+	
+	function addComment(){
+		
+		var str = $("#text_comment").val();
+		nicoscreen.add(str);
+		
+		$("#text_comment").val("");
+		
+	}
+	
+
+</script>
+
+
+
+
+
+</textarea>
+
+</div>
+</div>
+</body>
+</html>

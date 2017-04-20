@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>fishtube</title>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+  <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+  <!--  bootstrap -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+    body {
+      background: #F1F1F1;
+    }
+
+    .navbar {
+      background: white;
+      height: 49px;
+      padding: 7px 30px;
+    }
+
+    .navbar-brand {
+      padding: 0px 15px;
+    }
+
+    #searchvar {
+      width: 426px;
+    }
+
+    .main-content {
+      margin-top: 10px;
+    }
+
+    .main-content .content-area .content-card {
+      margin-bottom: 10px;
+      background: #ffffff;
+    }
+
+    .sidebar aside {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    img.size-full {
+      width: 100%;
+      height: 100%;
+      padding: 0% 16.4%;
+      background: #000000;
+    }
+
+    img.tmb {
+      width: 168px;
+    }
+
+    .siderow {
+      margin-bottom: 15px;
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        width: 1300px;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .container {
+        width: 100%;
+      }
+    }
+
+    .detail {
+      color: #767676;
+    }
+
+    .yt-card {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .bottom-text-parent {
+      position: relative;
+      height: 100px;
+    }
+
+    .bottom-text {
+      position: absolute;
+      bottom: 0;
+    }
+
+    .views {
+      color: #767676;
+    }
+
+    #search {
+      width: 65px;
+    }
+
+    #favorite {
+      height: 22px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    footer {
+      background: white;
+    }
+  </style>
+
+  <!-- slider -->
+  <script src="js/bootstrapSlideInMenu.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(document).SlideInMenu();
+    });
+  </script>
+
+  <!-- webiopi -->
+  <script>
+    function GPIO(gpio) {
+      this.gpio = gpio;
+      this.url = "/webiopi/GPIO/" + gpio + "/function";
+    }
+
+    GPIO.prototype.getFunction = function(callback) {
+      var content = this;
+      if (callback != undefined) {
+        $.get(this.url, function(data) {
+          content.updateFunction(content.gpio, data);
+          callback(data);
+        });
+      }
+    }
+
+    GPIO.prototype.setFunction = function(func, callback) {
+      $.post(this.url + '/' + func, function(data) {
+        //    w().updateFunction(gpio, data);
+        if (callback != undefined) {
+          callback(gpio, data);
+        }
+      });
+    }
+
+    GPIO.prototype.updateFunction = function(gpio, func) {
+      var stat = func == 'OUT' ? true : false;
+      $("#function" + gpio).prop('checked', stat).change();
+    }
+
+    function Temperature(name) {
+      this.name = name;
+      this.url = "/webiopi/devices/" + name + "/sensor";
+      this.refreshTime = 5000;
+    }
+
+    Temperature.prototype.getCelsius = function(callback) {
+      $.get(this.url + "/temperature/c", function(data) {
+        callback(data);
+      });
+    }
+
+    Temperature.prototype.refresh = function() {
+      var temp = this;
+      var element = this.element;
+      this.getCelsius(function(data) {
+        if (element != undefined) {
+          element.text(data + "°C");
+        }
+        setTimeout(function() {
+          temp.refresh()
+        }, temp.refreshTime);
+      });
+    }
+
+    $(function() {
+      // LED
+      teset =
+        led = new GPIO(17);
+      led.getFunction(function(data) {
+        if (data == 'IN') {
+          $("[data-gpio='17']").prop('checked', false).change()
+        } else {
+          $("[data-gpio='17']").prop('checked', true).change()
+        }
+      });
+      led = new GPIO(27);
+      led.getFunction(function(data) {
+        if (data == 'IN') {
+          $("[data-gpio='27']").prop('checked', false).change()
+        } else {
+          $("[data-gpio='27']").prop('checked', true).change()
+        }
+      });
+
+      // Temperature
+      content = $(".webiopi-temp");
+      device = new Temperature("temp2");
+      device.refreshTime = 30000;
+      device.element = $("<span>");
+      device.refresh();
+      content.append(device.element);
+    });
+  </script>
+
+  <!-- bootstrap-toggle -->
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script>
+    $(function() {
+      content = $('.webiopi-toggle');
+      $('.webiopi-toggle').bootstrapToggle({
+        size: 'small',
+        width: 100
+      });
+
+      content.change(function() {
+        gpio = new GPIO($(this).attr("data-gpio"));
+        if ($(this).prop("checked")) {
+          gpio.setFunction('OUT', function() {});
+        } else {
+          gpio.setFunction('IN', function() {});
+        }
+      });
+    });
+  </script>
+
+  <!-- lightbox -->
+  <script src="js/ekko-lightbox.min.js"></script>
+  <link rel="stylesheet" href="css/ekko-lightbox.min.css">
+  <script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+    });
+  </script>
+
+  <!-- favorite -->
+  <script>
+    $(function() {
+      $('#favorite').click(function() {
+        if (window.sidebar && window.sidebar.addPanel) { // Mozilla Firefox Bookmark
+          window.sidebar.addPanel(document.title, window.location.href, '');
+        } else if (window.external && ('AddFavorite' in window.external)) { // IE Favorite
+          window.external.AddFavorite(location.href, document.title);
+        } else if (window.opera && window.print) { // Opera Hotlist
+          this.title = document.title;
+          return true;
+        } else { // webkit - safari/chrome
+          alert('ブラウザ付属のブックマーク機能をご利用ください。' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? '【 Command 】' : '【 Ctrl 】') + ' + 【 D 】ボタンを押すとブックマークできます。');
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <nav class="navbar navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span>Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <img src="image/logo.png" height="30" alt="logo">
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <form class="form-inline my-2 my-lg-0">
+          <div class="input-group">
+            <input class="form-control input-sm" type="text" placeholder="Search" id="searchvar" value="">
+            <span class="input-group-btn">
+              <button type="button" id="search" class="btn btn-sm btn-secondary" onclick="addComment()">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+            </span>
+          </div>
+          <div class="navbar-right" id="navbarSupportedContent">
+            <button type="button" class="btn btn-primary btn-sm">Sign in</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <div class="container main-content">
+    <div class="row">
+      <div class="col-md-8 content-area">
+        <div class="row content-card" id="nicoscreen">
+          <img src="/movie/?action=stream" class="img-responsive size-full" alt="stream">
+        </div>
+        <div class="row content-card yt-card">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <h4>【現在の水温は？】必見！絶対に癒やされるアクアリウム動画！【<span class="webiopi-temp"></span>】</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div style="float:left;">
+                  <img width="48" height="48" src="image/photo.jpg" alt="user-icon">
+                </div>
+                <div style="float:left;">
+                  <div>aaaaaaa</div>
+                  <button type="button" id="favorite" class="btn btn-danger btn-sm">
+                    <span class="glyphicon glyphicon-star"></span> subscript
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-6 text-right">
+                <h4 class="views">123,456 views</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/.content-area-->
+      <div class="col-md-4 sidebar">
+        <aside>
+          <div class="row siderow">
+            <div class="col-md-6 col-xs-5">
+              <a href="image/01.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                <img src="image/01_tmb.jpg" class="img-thumbnail" alt="thumb01">
+              </a>
+            </div>
+            <div class="col-md-6 col-xs-7">
+              <div class="title">カージナルテトラ</div>
+              <div class="small detail">カラシン</div>
+              <div class="small detail">2016/06 ～</div>
+            </div>
+          </div>
+          <div class="row siderow">
+            <div class="col-md-6 col-xs-5">
+              <a href="image/02.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                <img src="image/02_tmb.jpg" class="img-thumbnail" alt="thumb02">
+              </a>
+            </div>
+            <div class="col-md-6 col-xs-5">
+              <div class="title">コリドラス・パレアタス(青コリ)</div>
+              <div class="small detail">コリドラス</div>
+              <div class="small detail">2016/10 ～</div>
+            </div>
+          </div>
+          <div class="row siderow">
+            <div class="col-md-6 col-xs-5">
+              <a href="image/03.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                <img src="image/03_tmb.jpg" class="img-thumbnail" alt="thumb03">
+              </a>
+            </div>
+            <div class="col-md-6 col-xs-5">
+              <div>アフリカン・ランプアイ</div>
+              <div class="small detail">卵生メダカ</div>
+              <div class="small detail">2016/12 ～</div>
+            </div>
+          </div>
+          <div class="row siderow">
+            <div class="col-md-6 col-xs-5">
+              <a href="image/04.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                <img src="image/04_tmb.jpg" class="img-thumbnail" alt="thumb04">
+              </a>
+            </div>
+            <div class="col-md-6 col-xs-5">
+              <div>コリドラス・パンダ</div>
+              <div class="small detail">コリドラス</div>
+              <div class="small detail">2016/8 ～</div>
+            </div>
+          </div>
+          <div class="row siderow">
+            <div class="col-md-6 col-xs-5">
+              <a href="image/05.gif" data-toggle="lightbox" data-title="&nbsp;">
+                <img src="image/05_tmb.jpg" class="img-thumbnail" alt="thumb05">
+              </a>
+            </div>
+            <div class="col-md-6 col-xs-5">
+              <div>ミッキーマウスプラティ</div>
+              <div class="small detail">カダヤシ目</div>
+              <div class="small detail">2016/11 ～</div>
+            </div>
+          </div>
+        </aside>
+        <aside>
+          <h4>LED Light Controll</h4>
+          <span>WHITE</span>
+          <input type="checkbox" class="webiopi-toggle" data-gpio="27" value="">
+          <span>BLUE</span>
+          <input type="checkbox" class="webiopi-toggle" data-gpio="17" value="">
+          <div id="led" class="hidden"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <!-- footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-md-8">
+            <a href="#">Terms of Service</a> | <a href="#">Privacy</a>
+          </div>
+          <div class="col-md-4">
+            <p class="muted pull-right">c 2017 kinformation.mydns.jp All rights reserved</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- nicoscreen -->
+  <script src="js/nicoscreen.js"></script>
+  <script type="text/javascript">
+    var obj = {
+      "base": {
+        color: "white",
+        speed: "normal",
+        interval: "normal",
+        font_size: "30px",
+        loop: false
+      },
+      "comments": []
+    };
+
+    nicoscreen.set(obj);
+    nicoscreen.start();
+
+    function addComment() {
+      var str = $("#searchvar").val();
+      console.log(str);
+      nicoscreen.add(str);
+      $("#searchvar").val("");
+    }
+  </script>
+</body>
+
+</html>
