@@ -1,0 +1,101 @@
+body {
+  background: #F1F1F1;
+}
+
+.navbar {
+  background: white;
+  height: 49px;
+  padding: 7px 30px;
+}
+
+.navbar-brand {
+  padding: 0px 15px;
+}
+
+#searchvar {
+  width: 426px;
+}
+
+.main-content {
+  margin-top: 10px;
+}
+
+.main-content .content-area .content-card {
+  margin-bottom: 10px;
+  background: #ffffff;
+}
+
+.sidebar aside {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+img.size-full {
+  width: 100%;
+  height: 100%;
+  padding: 0% 16.4%;
+  background: #000000;
+}
+
+img.tmb {
+  width: 168px;
+}
+
+.siderow {
+  margin-bottom: 15px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1300px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .container {
+    width: 100%;
+  }
+}
+
+.detail {
+  color: #767676;
+}
+
+.yt-card {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.bottom-text-parent {
+  position: relative;
+  height: 100px;
+}
+
+.bottom-text {
+  position: absolute;
+  bottom: 0;
+}
+
+#viewer {
+  color: #767676;
+  font-size: 20px;
+}
+
+#search {
+  width: 65px;
+}
+
+#favorite {
+  height: 22px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.fish_desc p {
+  margin: 0;
+}
+
+footer {
+  background: white;
+}
