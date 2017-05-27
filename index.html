@@ -2,10 +2,13 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
   <title>fishtube</title>
   <meta charset="utf-8">
   <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
   <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+
+  <!-- jquery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
   <!--  bootstrap -->
@@ -79,9 +82,29 @@
   <!-- CanvasJS -->
   <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
   <script src="js/my_CanvasJS.js"></script>
+
+  <!-- isLogin -->
+  <script>
+    $(function() {
+      var cookies = document.cookie;
+      var cookieItem = cookies.split(';');
+      var flag = false;
+      for(i=0; i<cookieItem.length; i++) {
+        var elem = cookieItem[i].split('=');
+        if( elem[0].trim() == 'PHPSESSID' ) {
+          flag = true;
+          break;
+        }
+      }
+
+      if(!flag)
+        location.href = "login.html";
+    });
+  </script>
 </head>
 
 <body>
+
   <header>
     <nav class="navbar navbar-static-top">
       <div class="container">
@@ -146,7 +169,26 @@
           </section>
           <section>
             <div class="row content-card yt-card">
-              <div id="chartContainer" style="height: 200px; width: 100%;"></div>
+              <ul class="nav nav-tabs">
+                <li id="tab_menu_6h">
+                  <a data-toggle="tab" href="#chart">6H</a>
+                </li>
+                <li id="tab_menu_daily" class="active">
+                  <a data-toggle="tab" href="#chart">DAYLY</a>
+                </li>
+                <li id="tab_menu_weekly">
+                  <a data-toggle="tab" href="#chart">WEEKLY</a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div id="chart" class="tab-pane active"></div>
+                <style>
+                  #chart {
+                    height: 300px;
+                    width: 100%;
+                  }
+                </style>
+              </div>
             </div>
           </section>
         </div>

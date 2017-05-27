@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /home/pi/www/fishtube/db
+cd /home/pi/www/fishtube/data
 
 TIMESTAMP=`date +'%s000'`
 TEMP=`curl -s localhost/webiopi/temperature`
