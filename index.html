@@ -93,197 +93,203 @@
 </head>
 
 <body>
-
     <?php
-    $key = session_name();
-    if(isset($_COOKIE[$key]) && file_exists(session_save_path().DIRECTORY_SEPARATOR.'sess_'.$_COOKIE[$key])) {
-      session_start();
+        $key = session_name();
+    if (isset($_COOKIE[$key]) && file_exists(session_save_path().DIRECTORY_SEPARATOR.'sess_'.$_COOKIE[$key])) {
+        session_start();
     } else {
-      header("Location: /fishtube");
-      exit;
+        header("Location: /fishtube");
+        exit;
     }
-  ?>
-        <header>
-            <nav class="navbar navbar-static-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">
-                            <img src="img/logo.png" height="30" alt="logo">
-                        </a>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                        <form class="form-inline my-2 my-lg-0">
-                            <div class="input-group">
-                                <input class="form-control input-sm" type="search" placeholder="Search" id="searchvar" value="">
-                                <span class="input-group-btn">
+    >
+    <header>
+        <nav class="navbar navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="img/logo.png" height="30" alt="logo">
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <form class="form-inline my-2 my-lg-0">
+                        <div class="input-group">
+                            <input class="form-control input-sm" type="search" placeholder="Search" id="searchvar" value="">
+                            <span class="input-group-btn">
               <button type="button" id="search" class="btn btn-sm btn-secondary" onclick="addComment()">
                 <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                                </span>
-                            </div>
-                            <div class="navbar-right" id="navbarSupportedContent">
-                                <button type="button" class="btn btn-primary btn-sm">Sign in</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <main>
-            <div class="container main-content">
-                <div class="row">
-                    <div class="col-md-8 content-area">
-                        <section>
-                            <div class="row content-card" id="nicoscreen">
-                                <img src="/movie/?action=stream" class="img-responsive size-full" alt="stream">
-                            </div>
-                        </section>
-                        <section>
-                            <div class="row content-card yt-card">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h4>【現在の水温は？】必見！絶対に癒やされるアクアリウム動画！【<span class="webiopi-temp"></span>】</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div style="float:left;">
-                                                <img width="48" height="48" src="img/photo.jpg" alt="user-icon">
-                                            </div>
-                                            <div>
-                                                <div>
-                                                    <?php echo $_SESSION["username"]; ?>
-                                                </div>
-                                                <button type="button" id="favorite" class="btn btn-danger btn-sm">
-                        <span class="glyphicon glyphicon-star"></span> subscript
-                      </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 text-right" style="float:right;">
-                                            <p class="views" id="viewer">123,456 views</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <section>
-                            <div class="row content-card yt-card">
-                                <ul class="nav nav-tabs">
-                                    <li id="tab_menu_6h">
-                                        <a data-toggle="tab" href="#chart">6H</a>
-                                    </li>
-                                    <li id="tab_menu_daily" class="active">
-                                        <a data-toggle="tab" href="#chart">DAYLY</a>
-                                    </li>
-                                    <li id="tab_menu_weekly">
-                                        <a data-toggle="tab" href="#chart">WEEKLY</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="chart" class="tab-pane active"></div>
-                                    <style>
-                                        #chart {
-                                            height: 300px;
-                                            width: 100%;
-                                        }
-                                    </style>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <!--/.content-area-->
-                    <div class="col-md-4 sidebar">
-                        <aside>
-                            <div class="row siderow">
-                                <div class="col-md-6 col-xs-5">
-                                    <a href="img/01.jpg" data-toggle="lightbox" data-title="&nbsp;">
-                                        <img src="img/01_tmb.jpg" class="img-thumbnail" alt="thumb01">
-                                    </a>
-                                </div>
-                                <div class="col-md-6 col-xs-7 fish_desc">
-                                    <p class="title">カージナルテトラ</p>
-                                    <p class="small detail">カラシン</p>
-                                    <p class="small detail">2016/06 ～</p>
-                                </div>
-                            </div>
-                            <div class="row siderow">
-                                <div class="col-md-6 col-xs-5">
-                                    <a href="img/02.jpg" data-toggle="lightbox" data-title="&nbsp;">
-                                        <img src="img/02_tmb.jpg" class="img-thumbnail" alt="thumb02">
-                                    </a>
-                                </div>
-                                <div class="col-md-6 col-xs-7 fish_desc">
-                                    <p class="title">コリドラス・パレアタス(青コリ)</p>
-                                    <p class="small detail">コリドラス</p>
-                                    <p class="small detail">2016/10 ～</p>
-                                </div>
-                            </div>
-                            <div class="row siderow">
-                                <div class="col-md-6 col-xs-5">
-                                    <a href="img/03.jpg" data-toggle="lightbox" data-title="&nbsp;">
-                                        <img src="img/03_tmb.jpg" class="img-thumbnail" alt="thumb03">
-                                    </a>
-                                </div>
-                                <div class="col-md-6 col-xs-7 fish_desc">
-                                    <p>アフリカン・ランプアイ</p>
-                                    <p class="small detail">卵生メダカ</p>
-                                    <p class="small detail">2016/12 ～</p>
-                                </div>
-                            </div>
-                            <div class="row siderow">
-                                <div class="col-md-6 col-xs-5">
-                                    <a href="img/04.jpg" data-toggle="lightbox" data-title="&nbsp;">
-                                        <img src="img/04_tmb.jpg" class="img-thumbnail" alt="thumb04">
-                                    </a>
-                                </div>
-                                <div class="col-md-6 col-xs-7 fish_desc">
-                                    <p>コリドラス・パンダ</p>
-                                    <p class="small detail">コリドラス</p>
-                                    <p class="small detail">2016/8 ～</p>
-                                </div>
-                            </div>
-                            <div class="row siderow">
-                                <div class="col-md-6 col-xs-5">
-                                    <a href="img/05.gif" data-toggle="lightbox" data-title="&nbsp;">
-                                        <img src="img/05_tmb.gif" class="img-thumbnail" alt="thumb05">
-                                    </a>
-                                </div>
-                                <div class="col-md-6 col-xs-7 fish_desc">
-                                    <p>ミッキーマウスプラティ</p>
-                                    <p class="small detail">カダヤシ目</p>
-                                    <p class="small detail">2016/11 ～</p>
-                                </div>
-                            </div>
-                            <div class="row siderow">
-                                <div class="col-md-6 col-xs-5">
-                                    <a href="img/06.jpg" data-toggle="lightbox" data-title="&nbsp;">
-                                        <img src="img/06_tmb.png" class="img-thumbnail" alt="thumb06">
-                                    </a>
-                                </div>
-                                <div class="col-md-6 col-xs-7 fish_desc">
-                                    <p>アルビノ・カージナルテトラ</p>
-                                    <p class="small detail">カラシン</p>
-                                    <p class="small detail">2017/6 ～</p>
-                                </div>
-                            </div>
-                        </aside>
-                        <aside>
-                            <h4>LED Light Controll</h4>
-                            <span>WHITE</span>
-                            <input type="checkbox" class="webiopi-toggle" data-gpio="27" value="">
-                            <span>BLUE</span>
-                            <input type="checkbox" class="webiopi-toggle" data-gpio="17" value="">
-                            <div id="led" class="hidden"></div>
-                        </aside>
-                        <aside>
-                            <h4>Fan Controll</h4>
-                            <input type="checkbox" class="webiopi-toggle" data-gpio="18" value="">
-                            <div id="fan" class="hidden"></div>
-                        </aside>
-                    </div>
+                            </button>
+                            </span>
+                        </div>
+                        <div class="navbar-right" id="navbarSupportedContent">
+                            <button type="button" class="btn btn-primary btn-sm">Sign in</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container main-content">
+            <div class="row">
+                <!-- main content -->
+                <div class="col-md-8 content-area">
+                    <!-- WebCam -->
+                    <section>
+                        <div class="row content-card" id="nicoscreen">
+                            <img src="/movie/?action=stream" class="img-responsive size-full" alt="stream">
+                        </div>
+                    </section>
+                    <!-- Title -->
+                    <section>
+                        <div class="row content-card yt-card">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>【現在の水温は？】必見！絶対に癒やされるアクアリウム動画！【<span class="webiopi-temp"></span>】</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div style="float:left;">
+                                            <img width="48" height="48" src="img/photo.jpg" alt="user-icon">
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <?php echo $_SESSION["username"]; ?>
+        </div>
+        <button type="button" id="favorite" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-star"></span> subscript
+                                            </button>
+        </div>
+        </div>
+        <div class="col-md-6 text-right" style="float:right;">
+            <p class="views" id="viewer">123,456 views</p>
+        </div>
+        </div>
+        </div>
+        </div>
+        </section>
+        <!-- water temp chart -->
+        <section>
+            <div class="row content-card yt-card">
+                <ul class="nav nav-tabs">
+                    <li id="tab_menu_6h">
+                        <a data-toggle="tab" href="#chart">6H</a>
+                    </li>
+                    <li id="tab_menu_daily" class="active">
+                        <a data-toggle="tab" href="#chart">DAYLY</a>
+                    </li>
+                    <li id="tab_menu_weekly">
+                        <a data-toggle="tab" href="#chart">WEEKLY</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="chart" class="tab-pane active"></div>
+                    <style>
+                        #chart {
+                            height: 300px;
+                            width: 100%;
+                        }
+                    </style>
+                </div>
+            </div>
+        </section>
+        </div>
+        <!-- side content -->
+        <div class="col-md-4 sidebar">
+            <!-- fish pict -->
+            <aside>
+                <div class="row siderow">
+                    <div class="col-md-6 col-xs-5">
+                        <a href="img/01.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                            <img src="img/01_tmb.jpg" class="img-thumbnail" alt="thumb01">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xs-7 fish_desc">
+                        <p class="title">カージナルテトラ</p>
+                        <p class="small detail">カラシン</p>
+                        <p class="small detail">2016/06 ～</p>
+                    </div>
+                </div>
+                <div class="row siderow">
+                    <div class="col-md-6 col-xs-5">
+                        <a href="img/02.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                            <img src="img/02_tmb.jpg" class="img-thumbnail" alt="thumb02">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xs-7 fish_desc">
+                        <p class="title">コリドラス・パレアタス(青コリ)</p>
+                        <p class="small detail">コリドラス</p>
+                        <p class="small detail">2016/10 ～</p>
+                    </div>
+                </div>
+                <div class="row siderow">
+                    <div class="col-md-6 col-xs-5">
+                        <a href="img/03.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                            <img src="img/03_tmb.jpg" class="img-thumbnail" alt="thumb03">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xs-7 fish_desc">
+                        <p>アフリカン・ランプアイ</p>
+                        <p class="small detail">卵生メダカ</p>
+                        <p class="small detail">2016/12 ～</p>
+                    </div>
+                </div>
+                <div class="row siderow">
+                    <div class="col-md-6 col-xs-5">
+                        <a href="img/04.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                            <img src="img/04_tmb.jpg" class="img-thumbnail" alt="thumb04">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xs-7 fish_desc">
+                        <p>コリドラス・パンダ</p>
+                        <p class="small detail">コリドラス</p>
+                        <p class="small detail">2016/8 ～</p>
+                    </div>
+                </div>
+                <div class="row siderow">
+                    <div class="col-md-6 col-xs-5">
+                        <a href="img/05.gif" data-toggle="lightbox" data-title="&nbsp;">
+                            <img src="img/05_tmb.gif" class="img-thumbnail" alt="thumb05">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xs-7 fish_desc">
+                        <p>ミッキーマウスプラティ</p>
+                        <p class="small detail">カダヤシ目</p>
+                        <p class="small detail">2016/11 ～</p>
+                    </div>
+                </div>
+                <div class="row siderow">
+                    <div class="col-md-6 col-xs-5">
+                        <a href="img/06.jpg" data-toggle="lightbox" data-title="&nbsp;">
+                            <img src="img/06_tmb.png" class="img-thumbnail" alt="thumb06">
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-xs-7 fish_desc">
+                        <p>アルビノ・カージナルテトラ</p>
+                        <p class="small detail">カラシン</p>
+                        <p class="small detail">2017/6 ～</p>
+                    </div>
+                </div>
+            </aside>
+            <!-- LED Light Controll -->
+            <aside>
+                <h4>LED Light Controll</h4>
+                <span>WHITE</span>
+                <input type="checkbox" class="webiopi-toggle" data-gpio="27" value="">
+                <span>BLUE</span>
+                <input type="checkbox" class="webiopi-toggle" data-gpio="17" value="">
+                <div id="led" class="hidden"></div>
+            </aside>
+            <!-- Fan Controll -->
+            <aside>
+                <h4>Fan Controll</h4>
+                <input type="checkbox" class="webiopi-toggle" data-gpio="18" value="">
+                <div id="fan" class="hidden"></div>
+            </aside>
+        </div>
+        </div>
+        </div>
         </main>
         <!-- footer -->
         <footer class="footer">
