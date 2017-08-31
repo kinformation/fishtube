@@ -15,7 +15,6 @@ GPIO.prototype.getFunction = function(callback) {
 
 GPIO.prototype.setFunction = function(func, callback) {
   $.post(this.url + '/' + func, function(data) {
-    //    w().updateFunction(gpio, data);
     if (callback != undefined) {
       callback(gpio, data);
     }
@@ -54,8 +53,7 @@ Temperature.prototype.refresh = function() {
 
 $(function() {
   // LED
-  teset =
-    led = new GPIO(17);
+  led = new GPIO(17);
   led.getFunction(function(data) {
     if (data == 'IN') {
       $("[data-gpio='17']").prop('checked', false).change()
@@ -69,6 +67,16 @@ $(function() {
       $("[data-gpio='27']").prop('checked', false).change()
     } else {
       $("[data-gpio='27']").prop('checked', true).change()
+    }
+  });
+
+  // Fan
+  fan = new GPIO(18);
+  fan.getFunction(function(data) {
+    if (data == 'IN') {
+      $("[data-gpio='18']").prop('checked', false).change()
+    } else {
+      $("[data-gpio='18']").prop('checked', true).change()
     }
   });
 

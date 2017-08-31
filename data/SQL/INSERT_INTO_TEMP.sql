@@ -1,0 +1,6 @@
+INSERT INTO temp
+VALUES(
+  %TIMESTAMP%,
+  %TEMP%
+)
+;

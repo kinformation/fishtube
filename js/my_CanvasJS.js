@@ -59,5 +59,14 @@ $.ajax({
     chart.axisY[0].set("interval", 2.0);
   });
 
+  $("#tab_menu_all").on('click', function() {
+    dt = new Date();
+    chart.axisX[0].set("minimum", dt.setDate(dt.getDate() - 7));
+    chart.axisX[0].set("intervalType", "day");
+    chart.axisX[0].set("interval", 1);
+    chart.axisX[0].set("valueFormatString", "M/D");
+    chart.axisY[0].set("interval", 2.0);
+  });
+
   $('#tab_menu_daily').click();
 });

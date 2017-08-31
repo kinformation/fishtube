@@ -15,6 +15,13 @@
 </head>
 
 <body>
+  <?php
+    $key = session_name();
+    if(isset($_COOKIE[$key]) && file_exists(session_save_path().DIRECTORY_SEPARATOR.'sess_'.$_COOKIE[$key])) {
+      header("Location: /fishtube/index.html");
+      exit;
+    }
+  ?>
   <div class="container">
     <div class="wrapper">
       <form action="app/login.php" method="post" name="login_form" class="form-signin">
